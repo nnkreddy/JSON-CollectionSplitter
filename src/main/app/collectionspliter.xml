@@ -22,6 +22,7 @@ http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mul
         <http:listener config-ref="HTTP_Listener_Configuration" path="/json" doc:name="HTTP"/>
         <logger message="In main flow Message Id =#[message.id] and Correlation Id= #[message.correlationId]" level="INFO" doc:name="Logger"/>
         <vm:outbound-endpoint exchange-pattern="request-response" path="vmq" doc:name="VM"/>
+        <object-to-string-transformer doc:name="Object to String"/>
     </flow>
     <flow name="collectionspliterFlow2">
         <logger message="Invoked the encryption flow for field #[payload.Fname]" level="INFO" doc:name="Logger"/>
@@ -38,12 +39,11 @@ return ["Sname":Sname]]]></scripting:script>
     <flow name="collectionspliterFlow1">
         <vm:inbound-endpoint exchange-pattern="request-response" path="vmq" doc:name="VM"/>
         <expression-transformer expression="#[json:Employee]" doc:name="Expression" mimeType="application/json"/>
+        <collection-splitter doc:name="Collection Splitter"/>
         <data-mapper:transform config-ref="JSON_To_JSON" doc:name="JSON To JSON"/>
         <byte-array-to-string-transformer mimeType="application/json" doc:name="Byte Array to String"/>
         <collection-aggregator failOnTimeout="true" doc:name="Collection Aggregator"/>
-        <collection-splitter doc:name="Collection Splitter"/>
         <logger message="Final Message Id =#[message.id] and Correlation Id= #[message.correlationId]" level="INFO" doc:name="Logger"/>
-        <json:object-to-json-transformer mimeType="application/json" doc:name="Object to JSON" encoding="US-ASCII"/>
     </flow>
 
 </mule>
