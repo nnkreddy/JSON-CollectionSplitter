@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:encryption="http://www.mulesoft.org/schema/mule/encryption" xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting" xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:mulexml="http://www.mulesoft.org/schema/mule/xml" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.6.1"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd
+http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/xml http://www.mulesoft.org/schema/mule/xml/current/mule-xml.xsd
+http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schema/mule/ee/data-mapper/current/mule-data-mapper.xsd
+http://www.mulesoft.org/schema/mule/encryption http://www.mulesoft.org/schema/mule/encryption/current/mule-encryption.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd
+http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mule/scripting/current/mule-scripting.xsd">
+   
+    <http:listener-config name="HTTP_Listener_Configuration" host="0.0.0.0" port="8081" doc:name="HTTP Listener Configuration"/>
+    <data-mapper:config name="JSON_To_JSON" transformationGraphPath="json_to_json.grf" doc:name="JSON_To_JSON"/>
+    <encryption:config name="Encryption" doc:name="Encryption"/>
+    
+    <flow name="collectionspliterFlow">
+        <http:listener config-ref="HTTP_Listener_Configuration" path="/json" doc:name="HTTP"/>
+        <logger message="In main flow Message Id =#[message.id] and Correlation Id= #[message.correlationId]" level="INFO" doc:name="Logger"/>
+        <vm:outbound-endpoint exchange-pattern="request-response" path="vmq" doc:name="VM"/>
+    </flow>
+    <flow name="collectionspliterFlow2">
+        <logger message="Invoked the encryption flow for field #[payload.Fname]" level="INFO" doc:name="Logger"/>
+        <encryption:encrypt config-ref="Encryption" input-ref="#[payload.Fname]" using="JCE_ENCRYPTER" doc:name="Encryption">
+            <encryption:jce-encrypter key="PlainKey4JCEmode" algorithm="AES" encryptionMode="CBC"/>
+        </encryption:encrypt>
+        <scripting:component doc:name="Groovy">
+            <scripting:script engine="Groovy"><![CDATA[def Sname=payload
+
+return ["Sname":Sname]]]></scripting:script>
+        </scripting:component>
+        <logger message="Encryted value for #[payload.Sname]" level="INFO" doc:name="Logger"/>
+    </flow>
+    <flow name="collectionspliterFlow1">
+        <vm:inbound-endpoint exchange-pattern="request-response" path="vmq" doc:name="VM"/>
+        <expression-transformer expression="#[json:Employee]" doc:name="Expression" mimeType="application/json"/>
+        <data-mapper:transform config-ref="JSON_To_JSON" doc:name="JSON To JSON"/>
+        <byte-array-to-string-transformer mimeType="application/json" doc:name="Byte Array to String"/>
+        <collection-aggregator failOnTimeout="true" doc:name="Collection Aggregator"/>
+        <collection-splitter doc:name="Collection Splitter"/>
+        <logger message="Final Message Id =#[message.id] and Correlation Id= #[message.correlationId]" level="INFO" doc:name="Logger"/>
+        <json:object-to-json-transformer mimeType="application/json" doc:name="Object to JSON" encoding="US-ASCII"/>
+    </flow>
+
+</mule>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?><Graph __version="3.5.0" author="861322" created="Wed Jun 10 18:27:57 IST 2015" description="JSON To JSON" guiVersion="3.4.4.P" id="1433942804971" licenseCode="Unlicensed" licenseType="Unknown" modified="Wed Jun 10 18:27:57 IST 2015" modifiedBy="861322" name="JSON_To_JSON" preview-file="C:/Users/861322/Desktop/SampleJson.txt" revision="1.0" showComponentDetails="false">
+<Global>
+<Metadata __index="0" __referenceCounter="1" __sourcePath="{}/object" _dataStructure="OBJECT" _id="__id" _type="Input" id="9bc461b6-49c1-47e5-8703-c11192f6a2cf">
+<Record fieldDelimiter="," name="object" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __index="0" __sourcePath="{}/object/firstName" containerType="SINGLE" label="firstName" name="firstName" type="string"/>
+<Field __index="1" __sourcePath="{}/object/lastName" containerType="SINGLE" label="lastName" name="lastName" type="string"/>
+<Field __index="2" __sourcePath="{}/object/age" containerType="SINGLE" label="age" name="age" type="integer"/>
+<Field __index="3" __sourcePath="{}/object/address/streetAddress" containerType="SINGLE" label="streetAddress" name="streetAddress" type="string"/>
+<Field __index="4" __sourcePath="{}/object/address/city" containerType="SINGLE" label="city" name="city" type="string"/>
+<Field __index="5" __sourcePath="{}/object/address/state" containerType="SINGLE" label="state" name="state" type="string"/>
+<Field __index="6" __sourcePath="{}/object/address/postalCode" containerType="SINGLE" label="postalCode" name="postalCode" type="string"/>
+</Record>
+</Metadata>
+<Metadata __index="0" __referenceCounter="1" __sourcePath="{}/object" _dataStructure="OBJECT" _id="__id" _type="Output" id="7450de53-b2bd-47d6-9c17-9563f8ef915d">
+<Record fieldDelimiter="," name="object" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __index="0" __sourcePath="{}/object/firstName" containerType="SINGLE" label="firstName" name="firstName" type="string"/>
+<Field __index="1" __sourcePath="{}/object/lastName" containerType="SINGLE" label="lastName" name="lastName" type="string"/>
+<Field __index="2" __sourcePath="{}/object/age" containerType="SINGLE" label="age" name="age" type="integer"/>
+<Field __index="3" __sourcePath="{}/object/address/streetAddress" containerType="SINGLE" label="streetAddress" name="streetAddress" type="string"/>
+<Field __index="4" __sourcePath="{}/object/address/city" containerType="SINGLE" label="city" name="city" type="string"/>
+<Field __index="5" __sourcePath="{}/object/address/state" containerType="SINGLE" label="state" name="state" type="string"/>
+<Field __index="6" __sourcePath="{}/object/address/postalCode" containerType="SINGLE" label="postalCode" name="postalCode" type="string"/>
+</Record>
+</Metadata>
+<Metadata __index="7" __referenceCounter="1" __sourcePath="{}/object/phoneNumber" _dataStructure="SINGLE_DIMENSIONAL_COLLECTION" _id="__id" _metadataParentId="9bc461b6-49c1-47e5-8703-c11192f6a2cf" _parent_id="__parent_id" _type="Input" id="61c9490b-fb60-4c50-8796-de7e11e49808">
+<Record fieldDelimiter="," name="phoneNumber" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_parent_id" __systemManaged="true" name="__parent_id" type="string"/>
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __index="7" __sourcePath="{}/object/phoneNumber/type" containerType="SINGLE" label="type" name="type" type="string"/>
+<Field __index="8" __sourcePath="{}/object/phoneNumber/number" containerType="SINGLE" label="number" name="number" type="string"/>
+</Record>
+</Metadata>
+<Metadata __index="7" __referenceCounter="1" __sourcePath="{}/object/phoneNumber" _dataStructure="SINGLE_DIMENSIONAL_COLLECTION" _id="__id" _metadataParentId="7450de53-b2bd-47d6-9c17-9563f8ef915d" _parent_id="__parent_id" _type="Output" id="1a6b2b67-c0a7-4ffe-bea4-00785092ba92">
+<Record fieldDelimiter="," name="phoneNumber" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_parent_id" __systemManaged="true" name="__parent_id" type="string"/>
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __index="7" __sourcePath="{}/object/phoneNumber/type" containerType="SINGLE" label="type" name="type" type="string"/>
+<Field __index="8" __sourcePath="{}/object/phoneNumber/number" containerType="SINGLE" label="number" name="number" type="string"/>
+</Record>
+</Metadata>
+<Metadata _type="Lookup" id="5cc3e12e-d561-4b8e-a305-a72123f97ae7">
+<Record fieldDelimiter="," name="TestEncryption" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field containerType="SINGLE" label="Fname" name="Fname" type="string"/>
+<Field containerType="SINGLE" label="Sname" name="Sname" type="string"/>
+</Record>
+</Metadata>
+<LookupTable flow-ref="collectionspliterFlow2" id="TestEncryption" key="Fname" metadata="5cc3e12e-d561-4b8e-a305-a72123f97ae7" name="TestEncryption" type="muleFlowLookup">
+<attr name="lookupType"><![CDATA[FlowRef]]></attr>
+</LookupTable>
+<Dictionary>
+<Entry id="DictionaryEntry0" input="true" name="inputPayload" output="false" type="object"/>
+<Entry id="DictionaryEntry1" input="false" name="outputPayload" output="true" type="object"/>
+</Dictionary>
+</Global>
+<Phase number="0">
+<Node enabled="enabled" guiName="Foreach 'object' -&gt; 'object'" guiX="460" guiY="20" id="FOREACH_OBJECT_OBJECT" transformClass="com.mulesoft.datamapper.transform.MelRecordTransform" type="REFORMAT">
+<attr name="melScript"><![CDATA[//MEL
+//START -> DO NOT REMOVE
+output.__id = input.__id;
+//END -> DO NOT REMOVE
+output.firstName = (isnull(lookup(TestEncryption).get([input.firstName])) ? null : lookup(TestEncryption).get([input.firstName]).Sname);
+output.lastName = input.lastName;
+output.age = input.age;
+output.streetAddress = input.streetAddress;
+output.city = input.city;
+output.state = input.state;
+output.postalCode = input.postalCode;
+]]></attr>
+</Node>
+<Node enabled="enabled" guiName="Foreach 'phoneNumber' -&gt; 'phoneNumber'" guiX="460" guiY="120" id="FOREACH_PHONE_NUMBER_PHONE_NUMBER" transformClass="com.mulesoft.datamapper.transform.MelRecordTransform" type="REFORMAT">
+<attr name="melScript"><![CDATA[//MEL
+//START -> DO NOT REMOVE
+output.__id = input.__id;
+output.__parent_id = input.__parent_id;
+//END -> DO NOT REMOVE
+output.type = input.type;
+output.number = input.number;
+]]></attr>
+</Node>
+<Node charset="UTF-8" enabled="enabled" fileURL="dict:inputPayload" guiName="JSON READER" guiX="20" guiY="20" id="JSON_READER0" type="JSON_READER">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Context xpath="/root">
+  <Context outPort="0" sequenceField="__id" xpath="object">
+    <Mapping cloverField="firstName" trim="true" xpath="firstName"/>
+    <Mapping cloverField="lastName" trim="true" xpath="lastName"/>
+    <Mapping cloverField="age" trim="true" xpath="age"/>
+    <Mapping cloverField="streetAddress" trim="true" xpath="address/streetAddress"/>
+    <Mapping cloverField="city" trim="true" xpath="address/city"/>
+    <Mapping cloverField="state" trim="true" xpath="address/state"/>
+    <Mapping cloverField="postalCode" trim="true" xpath="address/postalCode"/>
+    <Context generatedKey="__parent_id" outPort="1" parentKey="__id" sequenceField="__id" xpath="phoneNumber">
+      <Mapping cloverField="type" trim="true" xpath="type"/>
+      <Mapping cloverField="number" trim="true" xpath="number"/>
+    </Context>
+  </Context>
+</Context>
+]]></attr>
+<attr name="__isJsonSchema"><![CDATA[false]]></attr>
+<attr name="_data_format"><![CDATA[JSON]]></attr>
+<attr name="jsonSchemaURL"><![CDATA[C:/Users/861322/Desktop/SampleJson.txt]]></attr>
+</Node>
+<Node cacheInMemory="true" charset="UTF-8" enabled="enabled" fileURL="dict:outputPayload" guiName="JSON WRITER" guiX="900" guiY="20" id="JSON_WRITER0" type="JSON_WRITER">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<object xmlns:clover="http://www.cloveretl.com/ns/xmlmapping" clover:inPort="0">
+  <firstName>$0.firstName</firstName>
+  <lastName>$0.lastName</lastName>
+  <age>$0.age</age>
+  <address>
+    <streetAddress>$0.streetAddress</streetAddress>
+    <city>$0.city</city>
+    <state>$0.state</state>
+    <postalCode>$0.postalCode</postalCode>
+  </address>
+  <clover:collection clover:name="phoneNumber">
+    <item clover:inPort="1" clover:key="__parent_id" clover:parentKey="__id">
+      <type>$1.type</type>
+      <number>$1.number</number>
+    </item>
+  </clover:collection>
+</object>]]></attr>
+<attr name="__isJsonSchema"><![CDATA[false]]></attr>
+<attr name="_data_format"><![CDATA[JSON]]></attr>
+<attr name="jsonSchemaURL"><![CDATA[C:/Users/861322/Desktop/SampleJson.txt]]></attr>
+</Node>
+<Edge debugMode="true" fromNode="FOREACH_OBJECT_OBJECT:0" guiBendpoints="" id="Edge1" inPort="Port 0 (in)" metadata="7450de53-b2bd-47d6-9c17-9563f8ef915d" outPort="Port 0 (out)" toNode="JSON_WRITER0:0"/>
+<Edge debugMode="true" fromNode="FOREACH_PHONE_NUMBER_PHONE_NUMBER:0" guiBendpoints="" id="Edge3" inPort="Port 1 (in)" metadata="1a6b2b67-c0a7-4ffe-bea4-00785092ba92" outPort="Port 0 (out)" toNode="JSON_WRITER0:1"/>
+<Edge debugMode="true" fromNode="JSON_READER0:0" guiBendpoints="" id="Edge0" inPort="Port 0 (in)" metadata="9bc461b6-49c1-47e5-8703-c11192f6a2cf" outPort="Port 0 (out)" toNode="FOREACH_OBJECT_OBJECT:0"/>
+<Edge debugMode="true" fromNode="JSON_READER0:1" guiBendpoints="" id="Edge2" inPort="Port 0 (in)" metadata="61c9490b-fb60-4c50-8796-de7e11e49808" outPort="Port 1 (out)" toNode="FOREACH_PHONE_NUMBER_PHONE_NUMBER:0"/>
+</Phase>
+</Graph>
