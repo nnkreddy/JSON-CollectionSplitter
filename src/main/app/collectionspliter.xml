@@ -15,8 +15,10 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
 http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mule/scripting/current/mule-scripting.xsd">
    
     <http:listener-config name="HTTP_Listener_Configuration" host="0.0.0.0" port="8081" doc:name="HTTP Listener Configuration"/>
-    <data-mapper:config name="JSON_To_JSON" transformationGraphPath="json_to_json.grf" doc:name="JSON_To_JSON"/>
     <encryption:config name="Encryption" doc:name="Encryption"/>
+    <data-mapper:config name="JSON_To_JSON_1" transformationGraphPath="json_to_json_1.grf" doc:name="JSON_To_JSON_1"/>
+    <data-mapper:config name="Map_To_JSON_1" transformationGraphPath="map_to_json_1.grf" doc:name="Map_To_JSON_1"/>
+    <data-mapper:config name="Map_To_JSON" transformationGraphPath="map_to_json.grf" doc:name="Map_To_JSON"/>
     
     <flow name="collectionspliterFlow">
         <http:listener config-ref="HTTP_Listener_Configuration" path="/json" doc:name="HTTP"/>
@@ -34,19 +36,22 @@ http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mul
             <encryption:jce-encrypter key="PlainKey4JCEmode" algorithm="AES" encryptionMode="CBC"/>
         </encryption:encrypt>
         <set-payload value="#[['FOutput' : payload]]" doc:name="Set Payload"/>
-<!--         <scripting:component doc:name="Groovy"> -->
-<!--             <scripting:script engine="Groovy"><![CDATA[def Sname=payload -->
-
-<!-- return ["Sname":Sname]]]></scripting:script> -->
-<!--         </scripting:component> -->
         <logger message="Encryted value for #[payload.FOutput]" level="INFO" doc:name="Logger"/>
     </flow>
     <flow name="collectionspliterFlow1">
         <vm:inbound-endpoint exchange-pattern="request-response" path="vmq" doc:name="VM"/>
         <expression-transformer expression="#[json:Employee]" doc:name="Expression" mimeType="application/json"/>
         <collection-splitter doc:name="Collection Splitter"/>
-        <data-mapper:transform config-ref="JSON_To_JSON" doc:name="JSON To JSON"/>
-        <byte-array-to-string-transformer mimeType="application/json" doc:name="Byte Array to String"/>
+        <json:json-to-object-transformer returnClass="java.lang.Object" doc:name="JSON to Object"/>
+        <choice doc:name="Choice">
+            <when expression="#[payload.Encrypt == 'TRUE']">
+                <data-mapper:transform config-ref="Map_To_JSON" doc:name="Map To JSON with Encryption"/>
+            </when>
+            <otherwise>
+                <data-mapper:transform config-ref="Map_To_JSON_1" doc:name="Map To JSON No Ecryption"/>
+            </otherwise>
+        </choice>
+        <byte-array-to-string-transformer doc:name="Byte Array to String"/>
         <collection-aggregator failOnTimeout="true" doc:name="Collection Aggregator"/>
         <logger message="Final Message Id =#[message.id] and Correlation Id= #[message.correlationId]" level="INFO" doc:name="Logger"/>
     </flow>
