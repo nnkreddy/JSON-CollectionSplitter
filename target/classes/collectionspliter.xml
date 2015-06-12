@@ -23,18 +23,23 @@ http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mul
         <logger message="In main flow Message Id =#[message.id] and Correlation Id= #[message.correlationId]" level="INFO" doc:name="Logger"/>
         <vm:outbound-endpoint exchange-pattern="request-response" path="vmq" doc:name="VM"/>
         <object-to-string-transformer doc:name="Object to String"/>
+        <message-properties-transformer doc:name="Message Properties">
+            <add-message-property key="Content-Type" value="application/json"/>
+        </message-properties-transformer>
+        <logger message="Final Logger #[message.payload]" level="INFO" doc:name="Logger"/>
     </flow>
     <flow name="collectionspliterFlow2">
-        <logger message="Invoked the encryption flow for field #[payload.Fname]" level="INFO" doc:name="Logger"/>
-        <encryption:encrypt config-ref="Encryption" input-ref="#[payload.Fname]" using="JCE_ENCRYPTER" doc:name="Encryption">
+        <logger message="Invoked the encryption flow for field #[payload.FInput]" level="INFO" doc:name="Logger"/>
+        <encryption:encrypt config-ref="Encryption"  using="JCE_ENCRYPTER" doc:name="Encryption" input-ref="#[payload.FInput]">
             <encryption:jce-encrypter key="PlainKey4JCEmode" algorithm="AES" encryptionMode="CBC"/>
         </encryption:encrypt>
-        <scripting:component doc:name="Groovy">
-            <scripting:script engine="Groovy"><![CDATA[def Sname=payload
+        <set-payload value="#[['FOutput' : payload]]" doc:name="Set Payload"/>
+<!--         <scripting:component doc:name="Groovy"> -->
+<!--             <scripting:script engine="Groovy"><![CDATA[def Sname=payload -->
 
-return ["Sname":Sname]]]></scripting:script>
-        </scripting:component>
-        <logger message="Encryted value for #[payload.Sname]" level="INFO" doc:name="Logger"/>
+<!-- return ["Sname":Sname]]]></scripting:script> -->
+<!--         </scripting:component> -->
+        <logger message="Encryted value for #[payload.FOutput]" level="INFO" doc:name="Logger"/>
     </flow>
     <flow name="collectionspliterFlow1">
         <vm:inbound-endpoint exchange-pattern="request-response" path="vmq" doc:name="VM"/>

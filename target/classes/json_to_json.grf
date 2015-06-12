@@ -15,8 +15,8 @@
 </Metadata>
 <Metadata _type="Lookup" id="e2465bb6-25a6-41ac-96bf-6e1e1694497a">
 <Record fieldDelimiter="," name="EncryptionFlow" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
-<Field containerType="SINGLE" label="Fname" name="Fname" type="string"/>
-<Field containerType="SINGLE" label="Sname" name="Sname" type="string"/>
+<Field containerType="SINGLE" label="FInput" name="FInput" type="string"/>
+<Field containerType="SINGLE" label="FOutput" name="FOutput" type="string"/>
 </Record>
 </Metadata>
 <Metadata __index="0" __referenceCounter="1" __sourcePath="{}/object" _dataStructure="OBJECT" _id="__id" _type="Input" id="6771ae1a-6812-4200-b37d-d53619b5c41f">
@@ -52,7 +52,7 @@
 <Field __index="8" __sourcePath="{}/object/Employee/phoneNumber/number" containerType="SINGLE" label="number" name="number" type="string"/>
 </Record>
 </Metadata>
-<LookupTable flow-ref="collectionspliterFlow2" id="EncryptionFlow" key="Fname" metadata="e2465bb6-25a6-41ac-96bf-6e1e1694497a" name="EncryptionFlow" type="muleFlowLookup">
+<LookupTable flow-ref="collectionspliterFlow2" id="EncryptionFlow" key="FInput" metadata="e2465bb6-25a6-41ac-96bf-6e1e1694497a" name="EncryptionFlow" type="muleFlowLookup">
 <attr name="lookupType"><![CDATA[FlowRef]]></attr>
 </LookupTable>
 <Dictionary>
@@ -67,14 +67,13 @@
 output.__id = input.__id;
 output.__parent_id = input.__id;
 //END -> DO NOT REMOVE
-output.firstName = (isnull(lookup(EncryptionFlow).get([input.firstName])) ? null : lookup(EncryptionFlow).get([input.firstName]).Sname);
-output.lastName = input.lastName;
 output.age = input.age;
 output.streetAddress = input.streetAddress;
 output.city = input.city;
 output.state = input.state;
 output.postalCode = input.postalCode;
-]]></attr>
+output.firstName = (isnull(lookup(EncryptionFlow).get([input.firstName])) ? null : lookup(EncryptionFlow).get([input.firstName]).FOutput);
+output.lastName = (isnull(lookup(EncryptionFlow).get([input.lastName])) ? null : lookup(EncryptionFlow).get([input.lastName]).FOutput);]]></attr>
 </Node>
 <Node enabled="enabled" guiName="Foreach 'phoneNumber' -&gt; 'phoneNumber'" guiX="460" guiY="120" id="FOREACH_PHONE_NUMBER_PHONE_NUMBER" transformClass="com.mulesoft.datamapper.transform.MelRecordTransform" type="REFORMAT">
 <attr name="melScript"><![CDATA[//MEL
