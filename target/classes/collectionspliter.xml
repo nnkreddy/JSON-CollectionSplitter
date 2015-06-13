@@ -42,7 +42,10 @@ http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mul
         <vm:inbound-endpoint exchange-pattern="request-response" path="vmq" doc:name="VM"/>
         <expression-transformer expression="#[json:Employee]" doc:name="Expression" mimeType="application/json"/>
         <collection-splitter doc:name="Collection Splitter"/>
-        <json:json-to-object-transformer returnClass="java.lang.Object" doc:name="JSON to Object"/>
+        <json:json-to-object-transformer returnClass="java.util.LinkedHashMap" doc:name="JSON to Object"/>
+        <expression-transformer expression="#[payload.entrySet().toArray()]" doc:name="Expression"/>
+        <logger message="Key == #[payload.key] and value== #[payload.value]" level="INFO" doc:name="Logger"/>
+
         <choice doc:name="Choice">
             <when expression="#[payload.Encrypt == 'TRUE']">
                 <data-mapper:transform config-ref="Map_To_JSON" doc:name="Map To JSON with Encryption"/>

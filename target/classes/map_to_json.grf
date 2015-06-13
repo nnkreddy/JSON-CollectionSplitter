@@ -116,7 +116,6 @@ output.__parent_id = input.__id;
 //END -> DO NOT REMOVE
 output.age = input.age;
 output.firstName = (isnull(lookup(JCE_Encryption).get([input.firstName])) ? null : lookup(JCE_Encryption).get([input.firstName]).FOutput);
-output.lastName = (isnull(lookup(JCE_Encryption).get([input.lastName])) ? null : lookup(JCE_Encryption).get([input.lastName]).FOutput);
 ]]></attr>
 </Node>
 <Node enabled="enabled" guiName="Foreach 'phoneNumber' -&gt; 'phoneNumber'" guiX="460" guiY="220" id="FOREACH_PHONE_NUMBER_PHONE_NUMBER" transformClass="com.mulesoft.datamapper.transform.MelRecordTransform" type="REFORMAT">
